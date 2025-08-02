@@ -6,6 +6,15 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+def simple_health_check(request):
+    """Simple health check that doesn't depend on database"""
+    return JsonResponse({
+        "status": "healthy",
+        "message": "Server is running",
+        "environment": os.environ.get('ENVIRONMENT', 'development'),
+        "port": os.environ.get('PORT', '8000')
+    })
+
 def health_check(request):
     """Health check endpoint for Railway and Docker"""
     try:

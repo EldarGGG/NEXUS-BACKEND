@@ -31,15 +31,28 @@ fi
 
 # Start the application
 echo "Starting Gunicorn server on port ${PORT:-8000}..."
+echo "Environment variables:"
+echo "  PORT: ${PORT:-8000}"
+echo "  ENVIRONMENT: ${ENVIRONMENT:-development}"
+echo "  PYTHONPATH: ${PYTHONPATH}"
+echo "  DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}"
+
+# Test if Django can start
+echo "Testing Django startup..."
+python -c "import django; django.setup(); print('Django startup successful')" || {
+    echo "Django startup failed!"
+    exit 1
+}
+
 exec gunicorn core.wsgi:application \
     --bind 0.0.0.0:${PORT:-8000} \
-    --workers ${WEB_CONCURRENCY:-2} \
-    --threads 4 \
-    --timeout 120 \
+    --workers ${WEB_CONCURRENCY:-1} \
+    --threads 2 \
+    --timeout 60 \
     --keep-alive 2 \
     --max-requests 1000 \
     --max-requests-jitter 100 \
-    --log-level info \
+    --log-level debug \
     --access-logfile - \
     --error-logfile - \
     --preload

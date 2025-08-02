@@ -8,11 +8,12 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
     SpectacularRedocView,
 )
-from .health_views import health_check
+from .health_views import health_check, simple_health_check
 
 urlpatterns = [
       path('admin/', admin.site.urls),
       path('api/v1/health/', health_check, name='health_check'),
+      path('health/', simple_health_check, name='simple_health_check'),
       path('', include('users.urls')),  # This includes auth/login/ and auth/signup/
       path('stores/', include('stores.urls')),
       path('api/v1/', include('orders.urls')),
