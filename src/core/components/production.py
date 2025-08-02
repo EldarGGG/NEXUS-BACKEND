@@ -26,9 +26,10 @@ else:
         }
     }
 
-# Allowed hosts for Railway
+# Allowed hosts for Render and development
 ALLOWED_HOSTS = [
-    '.railway.app',
+    '.onrender.com',  # Все поддомены Render
+    'nexus-backend-z66y.onrender.com',  # Конкретный домен вашего приложения
     'localhost',
     '127.0.0.1',
     '0.0.0.0',
