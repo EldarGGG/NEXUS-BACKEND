@@ -1,0 +1,15 @@
+{% extends 'modal-forms/modal-form-base.html' %}
+{% load widget_tweaks %}
+
+{% block modal_id %}add-item-image{% endblock %}
+{% block modal_header %}Добавить изображение{% endblock %}
+
+{% block form_params %} enctype="multipart/form-data"{%endblock%}
+
+{% block form %}
+{% render_field item_image_form.description class="basic-form-input w-full" placeholder="Описание"%}
+{% render_field item_image_form.image class="basic-form-input w-full"%}
+<button class="modal-close submit-btn w-full" type="submit" hx-encoding="multipart/form-data"
+        hx-post="{% url 'create-item-image' request.store.id item.id %}" hx-target="#images">Добавить
+</button>
+{% endblock %}

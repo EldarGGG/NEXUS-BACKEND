@@ -1,0 +1,19 @@
+{% extends 'modal-forms/modal-form-base.html' %}
+{% load widget_tweaks %}
+
+{% block modal_id %}add-item{% endblock %}
+{% block modal_header %}Добавить товар{% endblock %}
+
+{% block form_params %} enctype="multipart/form-data"{%endblock%}
+
+{% block form %}
+    {% render_field item_form.name class="basic-form-input w-full" placeholder="Название"%}
+    {% render_field item_form.status class="basic-form-input w-full" placeholder="Статус"%}
+    {% render_field item_form.description class="basic-form-input w-full" placeholder="Описание"%}
+    {% render_field item_form.preview class="basic-form-input w-full"%}
+    {% render_field item_form.default_price class="basic-form-input w-full" placeholder="Цена по умолчанию"%}
+    {% render_field item_form.uom class="basic-form-input w-full" placeholder="Единица измерения"%}
+    <button class="modal-close submit-btn w-full" type="submit" hx-encoding="multipart/form-data"
+            hx-post="{% url 'create-item' request.store.id %}" hx-target="#items">Добавить
+    </button>
+{% endblock %}

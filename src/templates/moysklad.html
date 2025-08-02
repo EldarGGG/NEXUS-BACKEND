@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}
+    Moysklad
+{% endblock %}
+
+{% block content %}
+
+    {% include "partials/moysklad-integration-status.html" %}
+    {% include "modal-forms/add-moysklad.html" %}
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 's-base.html' %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
+            <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+                <svg width="81" height="12" viewBox="0 0 81 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M75.9616 4.71213C78.8719 4.71213 80.3271 5.74711 80.3271 7.81908C80.3271 10.2978 78.6632 11.5374 75.3353 11.5374L64.5351 11.5219L66.8132 8.61694H75.6139C76.4369 8.61694 76.849 8.33965 76.849 7.78508C76.849 7.24159 76.4369 6.97085 75.6139 6.97085H69.283C67.8336 6.97085 66.7322 6.67039 65.9789 6.06986C65.2713 5.51541 64.9178 4.72913 64.9178 3.71014C64.9178 1.35534 66.5814 0.178446 69.9091 0.178446H80.014L77.7012 3.13278H69.6313C68.8077 3.13278 68.3963 3.39294 68.3963 3.91351C68.3963 4.44567 68.8077 4.71213 69.6313 4.71213H75.9616ZM63.5208 6.57985C63.5208 10.0092 61.1035 11.7245 56.2682 11.7245C53.4857 11.7245 51.445 11.2936 50.146 10.4338C48.8826 9.60734 48.251 8.32253 48.251 6.57985V0.177942H51.8336V6.57985C51.8336 7.44005 52.112 8.02308 52.6685 8.32857C53.2484 8.64515 54.4481 8.80419 56.2682 8.80419C57.6365 8.80419 58.5874 8.63394 59.1209 8.29457C59.6425 7.96679 59.9034 7.39484 59.9034 6.57985V0.177942H63.5208V6.57985ZM47.2193 0.177942L43.5498 3.45552C42.2508 4.59892 41.387 5.3342 40.9586 5.66286C41.2134 5.83236 42.1524 6.65238 43.7757 8.12483L47.4974 11.5374H42.4191L38.4537 7.78508L34.3667 11.5374H29.897L33.6882 8.12483C35.045 6.90197 35.9493 6.12715 36.4014 5.79811L36.2448 5.67986C36.1522 5.61199 36.0886 5.56099 36.0539 5.52724C35.9377 5.43632 35.7752 5.30033 35.5667 5.1195C35.1026 4.72334 34.4764 4.16297 33.6882 3.4384L30.1229 0.177942H35.1145L38.8189 3.71014L42.5584 0.177942H47.2193ZM29.4621 8.61682L27.149 11.5374H15.9486V0.177942H29.4271L27.0969 3.13278H19.5656V4.4905H28.7836L26.7139 7.07121H19.5656V8.61682H29.4621ZM3.26915 4.8645V11.5374H0V2.11392C0 1.40093 0.196834 0.857686 0.591273 0.484318C0.962108 0.15578 1.41988 -0.00830078 1.96497 -0.00830078C2.49885 -0.00830078 2.97932 0.194943 3.40884 0.602688L10.5391 6.85135V0.177942H13.8265V9.58493C13.8265 10.2979 13.6296 10.8412 13.235 11.2149C12.8754 11.5547 12.4118 11.7245 11.8438 11.7245C11.3217 11.7245 10.8408 11.5204 10.4003 11.1132L3.26915 4.8645Z"
+                          fill="#EEF0F4"></path>
+                </svg>
+            </a>
+            <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                        Вход в аккаунт
+                    </h1>
+                    <form method="post" class="space-y-4 md:space-y-6">
+                        {% csrf_token %}
+                        <div>
+                            <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Логин
+                            </label>
+                            <input type="text" name="username" id="username"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                   placeholder="Введите ваш Логин" required="">
+                        </div>
+                        <div>
+                            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Пароль</label>
+                            <input type="password" name="password" id="password" placeholder="••••••••"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                   required="">
+                        </div>
+                        <button type="submit"
+                                class="w-full text-white bg-green-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                            Войти
+                        </button>
+                        <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+                            Отсутствует аккаунт?
+                            <a href="{% url 'signup' %}" class="font-medium text-primary-600 hover:underline dark:text-primary-500">
+                                Зарегистрируйтесь
+                            </a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

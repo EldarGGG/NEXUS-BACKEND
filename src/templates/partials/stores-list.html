@@ -1,0 +1,5 @@
+{% for store in stores %}
+    <div class="list-item">
+        <h3><a href="{% url 'home_store' store.id %}">{{ store.name }}</a></h3>
+    </div>
+{% endfor %}

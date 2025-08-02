@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Интеграции{% endblock %}
+
+{% block content %}
+<div class="integrations-content">
+    {% for integration in connected_integrations %}
+    <div class="integration window">
+        <img src="{{ integration.image.url }}" alt="">
+        <a href="" class="button-success">Подключено</a>
+    </div>
+    {% endfor %}
+    {% for integration in available_integrations %}
+    <div class="integration window">
+        <img src="{{ integration.image.url }}" alt="">
+        <a href="" class="button-transparent">Подключить</a>
+    </div>
+    {% endfor %}
+    {% for integration in unavailable_integrations %}
+    <div class="integration window">
+        <img src="{{ integration.image.url }}" alt="">
+        <a href="" class="button-inactive">Недоступно</a>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    .integrations-content{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .integration{
+    width: 274px;
+    height: 190px;
+    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 12px;
+}
+.integration>img{
+    max-height: 130px;
+    width: 130px;
+}
+</style>
+{% endblock %}
+

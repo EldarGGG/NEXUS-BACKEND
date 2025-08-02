@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    restart: always
+    ports:
+      - "8000:8000"
+    networks:
+      - nexus-merchant-network
+    volumes:
+      - ./database.sqlite3:/app/database.sqlite3
+      - ./src/media:/app/src/media
+
+networks:
+  nexus-merchant-network:
+    name: nexus-merchant-network

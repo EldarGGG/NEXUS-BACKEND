@@ -1,0 +1,16 @@
+{% extends 'modal-forms/modal-form-base.html' %}
+{% load widget_tweaks %}
+
+{% block modal_id %}add-uom{% endblock %}
+{% block modal_header %}Добавить единицу измерения{% endblock %}
+
+{% block form %}
+    {% render_field uom_form.name class="basic-form-input w-full" placeholder="Название"%}
+    <button 
+    class="modal-close submit-btn w-full" 
+    type="submit" 
+    hx-post="{% url 'create-uom' request.store.id %}" 
+    hx-target="#uoms">
+        Добавить
+    </button>
+{% endblock %}

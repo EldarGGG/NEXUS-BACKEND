@@ -1,0 +1,26 @@
+<div id="images">
+    {% for image in item_images %}
+        <div class="list-item-sm">
+            <p>{{ image.description }}</p>
+            <img class="item-image" src="{{ image.image.url }}" alt="image.description">
+        </div>
+        {% empty %}
+        <p>Нет изображений</p>
+    {% endfor %}
+
+
+    {% if message %}
+        <script>
+            showSnackbar("uom-message");
+        </script>
+        <div class="snackbar" id="uom-message">{{ message }}</div>
+    {% endif %}
+
+</div>
+
+<style>
+    .item-image {
+        max-height: 100%;
+        width: 100px;
+    }
+</style>

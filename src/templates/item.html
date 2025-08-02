@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %} {{ item.name }} {% endblock %}
+
+{% block content %}
+
+<h2 class="page-title">{{ item.name }}</h2>
+<div class="store-settings-content">
+    <div class="window">
+        <div class="window-subheader">
+            <a href="{% url 'store_params' request.store.id %}">
+                <h3 class="ml-8">{{ item.group.name }}</h3>
+                <a href="{% url 'store_items' request.store.id %}">
+                    <div class="btn btn-md mx-4 btn-transparent-secondary">
+                        Назад к товарам
+                    </div>
+                </a>
+            </a>
+        </div>
+        {% if item.img %}
+            <img class="item-img" src="{{ item.preview.url }}" alt="">
+        {% endif %}
+        <p>{{item.description}}</p>
+        <h3>Остатки</h3>
+        {% for stock in stocks %}
+        {{ stock.storage.name }} - {{ stock.amount }} {{ item.uom.name }}
+        {% empty %}
+        <p>Остатки отстутствуют</p>
+        {% endfor %}
+        <hr>
+            <div class="btn btn-md mx-4 btn-transparent-secondary js-modal" data-modal="#add-item-image">
+        + Изображение
+    </div>
+    {% include "partials/item-image-list.html" %}
+    </div>
+
+</div>
+
+{% include "modal-forms/add-item-image.html" %}
+
+<style>
+    .item-img{
+        width: 300px;
+        height: fit-content;
+    }
+
+</style>
+{% endblock %}

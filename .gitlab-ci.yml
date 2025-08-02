@@ -1,0 +1,22 @@
+stages:
+  - deploy
+
+variables:
+  SSH_PRIVATE_KEY: $CI_PRIVATE_KEY
+  DEV_REPO_PATH: /srv/nexuspro/services/nexus-merchant
+
+before_script:
+  - 'which ssh-agent || (apk update && apk add openssh-client)'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+
+deploy_dev:
+  stage: deploy
+  script:
+    - ssh -o StrictHostKeyChecking=no glitch@192.168.0.13 -p 22 "cd $DEV_REPO_PATH && git pull origin master"
+    - ssh -o StrictHostKeyChecking=no glitch@192.168.0.13 -p 22 "cd $DEV_REPO_PATH && docker compose -f docker-compose.dev.yml up --build -d"
+  only:
+    - master
+  

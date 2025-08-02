@@ -1,0 +1,16 @@
+{% extends 'modal-forms/modal-form-base.html' %}
+{% load widget_tweaks %}
+
+{% block modal_id %}add-moysklad{% endblock %}
+{% block modal_header %}Добавить Мойсклад{% endblock %}
+
+{% block form_params %}{%endblock%}
+
+{% block form %}
+    <input type="text" name="login" id="login" class="basic-form-input w-full" placeholder="логин">
+    <input type="password" name="password" id="password" class="basic-form-input w-full" placeholder="Пароль">
+    <button class="modal-close submit-btn w-full" type="submit" 
+        hx-post="{% url 'get-moysklad-token' request.store.id %}" hx-target="#integration">
+        Добавить
+    </button>
+{% endblock %}

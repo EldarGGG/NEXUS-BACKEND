@@ -1,0 +1,11 @@
+{% extends 'modal-forms/modal-form-base.html' %}
+{% load widget_tweaks %}
+
+{% block modal_id %}add-category{% endblock %}
+{% block modal_header %}Добавить категорию{% endblock %}
+
+{% block form %}
+    {% render_field category_form.name class="basic-form-input w-full" placeholder="Название"%}
+    {% render_field category_form.description class="basic-form-input w-full" placeholder="Описание"%}
+    <button class="modal-close submit-btn w-full" type="submit" hx-post="{% url 'create-category' request.store.id %}" hx-target="#categories">Добавить</button>
+{% endblock %}

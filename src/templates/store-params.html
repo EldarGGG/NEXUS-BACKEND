@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}Настройки склада{% endblock %}
+
+{% block content %}
+<h2 class="page-title">Настройки склада</h2>
+<div class="store-settings-content">
+    <div class="window w-full">
+        <div class="window-header">
+            <h3>Категории и подкатегории</h3>
+        </div>
+        <div class="window-subheader">
+            <div class="d-flex ml-8">
+                <div class="btn btn-md mx-4 btn-transparent-regular js-modal" data-modal="#add-category">
+                    + Категория
+                </div>
+                <div class="btn btn-md mx-4 btn-transparent-regular js-modal" data-modal="#add-subcategory">
+                    + Подкатегория
+                </div>
+            </div>
+            <div class="d-flex mr-8">
+                <input type="text" placeholder="Поиск" class="mx-4 small-input">
+            </div>
+        </div>
+        
+        {% include "partials/categories-subcategories.html" %}
+    </div>
+    <div class="window window-sm">
+        <div class="window-header">
+            <h3>Склады</h3>
+        </div>
+        <div class="window-subheader">
+            <div class="d-flex ml-8">
+                <div class="btn btn-md mx-4 btn-transparent-regular js-modal" data-modal="#add-storage">
+                    + Склад
+                </div>
+            </div>
+            <div class="d-flex mr-8">
+                <input type="text" placeholder="Поиск" class="mx-4 small-input">
+            </div>
+        </div>
+        {% include "partials/storage-list.html" %}
+    </div>
+</div>
+
+
+{% include "modal-forms/add-category.html" %}
+{% include "modal-forms/add-storage.html" %}
+{% include "modal-forms/add-subcategory.html" %}
+{% include "modal-forms/add-subcategory-by-category.html" %}
+
+
+
+<style>
+    .store-settings-content{
+        display: flex;
+        width: 100%;
+    }
+
+    .window-sm{
+        min-width: 454px;
+        max-width: 454px;
+        margin-left: 20px;
+    }
+</style>
+{% endblock %}
+
+

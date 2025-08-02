@@ -1,0 +1,33 @@
+{% if self_pickup_points %}
+    {% for point in self_pickup_points %}
+        <div class="p-3 flex items-center justify-between dark:border-b dark:border-b-gray-700">
+            <div>
+                <div class="text-sm font-bold">{{ point.name }}</div>
+                <div class="text-xs">{{ point.address }}</div>
+            </div>
+
+            <a class="transition-all duration-150 btn-icon btn-icon-danger"
+               hx-delete="{% url 'delete-pickup-point' point.id %}"
+               hx-target="#points-list"
+               hx-confirm="Вы действительно хотите удалить адрес?">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 11V17" stroke="#EEF0F4" stroke-width="2" stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                    <path d="M14 11V17" stroke="#EEF0F4" stroke-width="2" stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                    <path d="M4 7H20" stroke="#EEF0F4" stroke-width="2" stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                    <path d="M6 7H12H18V18C18 19.6569 16.6569 21 15 21H9C7.34315 21 6 19.6569 6 18V7Z"
+                          stroke="#EEF0F4" stroke-width="2" stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                    <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z"
+                          stroke="#EEF0F4"
+                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </a>
+
+        </div>
+    {% endfor %}
+{% else %}
+    <p class="p-6 s:p-8">Нет точек самовывоза</p>
+{% endif %}

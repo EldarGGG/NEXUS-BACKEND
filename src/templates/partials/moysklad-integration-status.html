@@ -1,0 +1,9 @@
+<div id="integration" class="integration">
+    {% if integration_status %}
+        <p>Интеграция подключена</p>
+    {% else %}
+        <div class="btn btn-md mx-4 btn-transparent-regular js-modal" data-modal="#add-moysklad">
+            + Интеграция
+        </div>
+    {% endif %}
+</div>

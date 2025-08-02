@@ -1,0 +1,18 @@
+{% extends 'modal-forms/modal-form-base.html' %}
+{% load widget_tweaks %}
+
+{% block modal_id %}add-storage{% endblock %}
+{% block modal_header %}Добавить склад{% endblock %}
+
+{% block form %}
+    {% render_field storage_form.name class="basic-form-input w-full" placeholder="Название"%}
+    {% render_field storage_form.city class="basic-form-input w-full" %}
+    {% render_field storage_form.address class="basic-form-input w-full" placeholder="Адрес"%}
+    <button 
+    class="modal-close submit-btn w-full" 
+    type="submit" 
+    hx-post="{% url 'create-storage' request.store.id %}" 
+    hx-target="#storages">
+        Добавить
+    </button>
+{% endblock %}
