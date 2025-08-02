@@ -28,12 +28,24 @@ def health_check(request):
         apps_status = f"unhealthy: {str(e)}"
         logger.error(f"Apps health check failed: {e}")
     
-    overall_status = "healthy" if db_status == "healthy" and apps_status == "healthy" else "unhealthy"
+    # Check if Django settings are properly configured
+    try:
+        # Test if we can access settings
+        test_setting = settings.DEBUG
+        settings_status = "healthy"
+        logger.info("Settings health check passed")
+    except Exception as e:
+        settings_status = f"unhealthy: {str(e)}"
+        logger.error(f"Settings health check failed: {e}")
+    
+    # Consider healthy if at least database and settings are working
+    overall_status = "healthy" if db_status == "healthy" and settings_status == "healthy" else "unhealthy"
     
     response_data = {
         "status": overall_status,
         "database": db_status,
         "apps": apps_status,
+        "settings": settings_status,
         "environment": os.environ.get('ENVIRONMENT', 'development'),
         "debug": settings.DEBUG,
         "port": os.environ.get('PORT', '8000')

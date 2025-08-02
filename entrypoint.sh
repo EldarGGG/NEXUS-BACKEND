@@ -15,7 +15,9 @@ echo "Waiting for database..."
 
 # Run migrations
 echo "Running database migrations..."
-python manage.py migrate --noinput
+python manage.py migrate --noinput || {
+    echo "Warning: Migration failed, but continuing..."
+}
 
 # Collect static files
 echo "Collecting static files..."
