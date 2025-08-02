@@ -2,20 +2,42 @@ from django.http import JsonResponse
 from django.db import connection
 from django.conf import settings
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 def health_check(request):
-    """Health check endpoint for Railway"""
+    """Health check endpoint for Railway and Docker"""
     try:
         # Check database connection
         with connection.cursor() as cursor:
             cursor.execute("SELECT 1")
             db_status = "healthy"
+            logger.info("Database health check passed")
     except Exception as e:
         db_status = f"unhealthy: {str(e)}"
+        logger.error(f"Database health check failed: {e}")
     
-    return JsonResponse({
-        "status": "healthy" if db_status == "healthy" else "unhealthy",
+    # Check if all required apps are loaded
+    try:
+        from django.apps import apps
+        apps.check_apps_ready()
+        apps_status = "healthy"
+        logger.info("Apps health check passed")
+    except Exception as e:
+        apps_status = f"unhealthy: {str(e)}"
+        logger.error(f"Apps health check failed: {e}")
+    
+    overall_status = "healthy" if db_status == "healthy" and apps_status == "healthy" else "unhealthy"
+    
+    response_data = {
+        "status": overall_status,
         "database": db_status,
+        "apps": apps_status,
         "environment": os.environ.get('ENVIRONMENT', 'development'),
-        "debug": settings.DEBUG
-    })
+        "debug": settings.DEBUG,
+        "port": os.environ.get('PORT', '8000')
+    }
+    
+    status_code = 200 if overall_status == "healthy" else 503
+    return JsonResponse(response_data, status=status_code)
