@@ -44,15 +44,20 @@ python -c "import django; django.setup(); print('Django startup successful')" ||
     exit 1
 }
 
+# Test if we can import the WSGI application
+echo "Testing WSGI application import..."
+python -c "from core.wsgi import application; print('WSGI application import successful')" || {
+    echo "WSGI application import failed!"
+    exit 1
+}
+
+# Start with simpler configuration first
+echo "Starting Gunicorn with simple configuration..."
 exec gunicorn core.wsgi:application \
     --bind 0.0.0.0:${PORT:-8000} \
-    --workers ${WEB_CONCURRENCY:-1} \
-    --threads 2 \
-    --timeout 60 \
-    --keep-alive 2 \
-    --max-requests 1000 \
-    --max-requests-jitter 100 \
+    --workers 1 \
+    --threads 1 \
+    --timeout 30 \
     --log-level debug \
     --access-logfile - \
-    --error-logfile - \
-    --preload
+    --error-logfile -
