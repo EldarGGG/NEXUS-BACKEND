@@ -66,16 +66,19 @@ class AuthLoginView(APIView):
             # Get user's store information if it exists
             store_data = None
             try:
-                store = Store.objects.get(owner=user)
-                store_data = {
-                    'id': store.id,
-                    'name': store.name,
-                    'description': store.description,
-                    'email': store.email,
-                    'phone': store.phone,
-                }
-            except Store.DoesNotExist:
-                # User doesn't have a store yet, which is fine for login
+                # Get the latest store for the user (in case they have multiple stores)
+                store = Store.objects.filter(owner=user).order_by('-id').first()
+                if store:
+                    store_data = {
+                        'id': store.id,
+                        'name': store.name,
+                        'description': store.description,
+                        'email': store.email,
+                        'phone': store.phone,
+                    }
+            except Exception as e:
+                # Log the error but don't fail the login
+                logger.warning(f"Error getting store for user {user.id}: {str(e)}")
                 pass
             
             # Return full response with tokens and user data
