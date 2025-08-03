@@ -1,3 +1,4 @@
+import logging
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -7,6 +8,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .models import CustomUser
 from stores.models import Store
+
+# Настройка логгера
+logger = logging.getLogger(__name__)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -18,9 +22,13 @@ class AuthLoginView(APIView):
     
     def post(self, request):
         try:
+            logger.info(f"Начало обработки входа. Данные запроса: {request.data}")
+            
             # Get credentials
             phone = request.data.get('phone')
             password = request.data.get('password')
+            
+            logger.info(f"Получены учетные данные. Телефон: {phone}")
             
             # Basic validation
             if not phone or not password:
@@ -31,15 +39,20 @@ class AuthLoginView(APIView):
             
             # Find user
             try:
+                logger.info(f"Поиск пользователя с username: {phone}")
                 user = CustomUser.objects.get(username=phone)
+                logger.info(f"Пользователь найден: ID={user.id}, username={user.username}")
             except CustomUser.DoesNotExist:
+                logger.warning(f"Пользователь с username={phone} не найден")
                 return Response(
                     {"detail": "Invalid credentials"}, 
                     status=status.HTTP_401_UNAUTHORIZED
                 )
             
             # Check password
+            logger.info("Проверка пароля пользователя")
             if not user.check_password(password):
+                logger.warning("Неверный пароль")
                 return Response(
                     {"detail": "Invalid credentials"}, 
                     status=status.HTTP_401_UNAUTHORIZED
@@ -78,8 +91,12 @@ class AuthLoginView(APIView):
             }, status=status.HTTP_200_OK)
             
         except Exception as e:
+            import traceback
+            error_trace = traceback.format_exc()
+            logger.error(f"Ошибка при входе: {str(e)}\n{error_trace}")
             return Response({
-                "detail": f"Server error: {str(e)}"
+                "detail": f"Server error: {str(e)}",
+                "traceback": error_trace.split('\n') if 'DEBUG' in os.environ else None
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
