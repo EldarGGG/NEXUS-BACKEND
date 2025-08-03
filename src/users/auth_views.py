@@ -49,15 +49,20 @@ class AuthLoginView(APIView):
             refresh = RefreshToken.for_user(user)
             access_token = refresh.access_token
             
-            # Get user's store information
-            store = Store.objects.get(owner=user)
-            store_data = {
-                'id': store.id,
-                'name': store.name,
-                'description': store.description,
-                'email': store.email,
-                'phone': store.phone,
-            }
+            # Get user's store information if it exists
+            store_data = None
+            try:
+                store = Store.objects.get(owner=user)
+                store_data = {
+                    'id': store.id,
+                    'name': store.name,
+                    'description': store.description,
+                    'email': store.email,
+                    'phone': store.phone,
+                }
+            except Store.DoesNotExist:
+                # User doesn't have a store yet, which is fine for login
+                pass
             
             # Return full response with tokens and user data
             return Response({
